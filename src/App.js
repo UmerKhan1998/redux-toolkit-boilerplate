@@ -3,7 +3,7 @@ import "./App.css";
 import TableComp from "./components/table";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Input, Modal } from "antd";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { addUser, editUser } from "./redux/userDataSlice";
 
 function App() {
@@ -36,12 +36,22 @@ function App() {
     setIsModalOpen(false);
   };
 
+  const initialStateEdit = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    age: 0,
+    phone: "",
+  };
+
+  const [addUserEditState, setAddUserEditState] = useState(initialStateEdit);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const showModalEdit = () => {
     setIsModalOpenEdit(true);
   };
   const handleOkEdit = () => {
-    dispatch(editUser(addUserState));
+    console.log("addUserEditStateBody", addUserEditState, userDataReducer);
+    dispatch(editUser(addUserEditState));
   };
   const handleCancelEdit = () => {
     setIsModalOpenEdit(false);
@@ -52,16 +62,6 @@ function App() {
     "userDataReducerEdit",
     userDataReducer[editStateIndex]?.firstName
   );
-
-  const initialStateEdit = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    age: 0,
-    phone: "",
-  };
-
-  const [addUserEditState, setAddUserEditState] = useState(initialStateEdit);
   const inputHandlerEdit = (e) =>
     setAddUserEditState({
       ...addUserEditState,
