@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [
   {
+    id:1,
     firstName: "Riley",
     lastName: "Richardson",
     email: "riley.richardson@example.com",
@@ -9,6 +10,7 @@ const initialState = [
     phone: "5462573021",
   },
   {
+    id:2,
     firstName: "Madison",
     lastName: "Miles",
     email: "madison.miles@example.com",
@@ -16,6 +18,7 @@ const initialState = [
     phone: "9364430802",
   },
   {
+    id:3,
     firstName: "Joy",
     lastName: "Clark",
     email: "joy.clark@example.com",
@@ -33,7 +36,8 @@ export const userDataSlice = createSlice({
     },
     editUser: (state, action) => {
       const actionPayload = action.payload;
-      console.log("action", actionPayload);
+      state=actionPayload
+      return state;
     },
     deleteUser: (state, action) => {
       state.splice(action.payload, 1);

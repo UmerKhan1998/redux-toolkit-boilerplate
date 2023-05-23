@@ -12,6 +12,7 @@ function App() {
 
   const dispatch = useDispatch();
   const initialState = {
+    id: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -30,6 +31,7 @@ function App() {
   };
   const handleOk = () => {
     dispatch(addUser(addUserState));
+    setIsModalOpen(false);
     // setIsModalOpen(false);
   };
   const handleCancel = () => {
@@ -37,41 +39,52 @@ function App() {
   };
 
   const initialStateEdit = {
+    id: "",
     firstName: "",
     lastName: "",
     email: "",
     age: 0,
     phone: "",
   };
-
+  
   const [addUserEditState, setAddUserEditState] = useState(initialStateEdit);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const showModalEdit = () => {
     setIsModalOpenEdit(true);
   };
+  
   const handleOkEdit = () => {
-    console.log("addUserEditStateBody", addUserEditState, userDataReducer);
-    dispatch(editUser(addUserEditState));
-  };
-  const handleCancelEdit = () => {
-    setIsModalOpenEdit(false);
-  };
-  const [editStateIndex, setEditStateIndex] = useState();
-
-  console.log(
-    "userDataReducerEdit",
-    userDataReducer[editStateIndex]?.firstName
-  );
-  const inputHandlerEdit = (e) =>
-    setAddUserEditState({
-      ...addUserEditState,
-      [e.target.name]: e.target.value,
+    const index = userDataReducer.findIndex(
+      (item) => item?.id === addUserEditState?.id
+      );
+      
+      const Arr = [...userDataReducer];
+      
+      Arr[index] = addUserEditState;
+      
+      dispatch(editUser(Arr));
+      setIsModalOpenEdit(false);
+    };
+    const handleCancelEdit = () => {
+      setIsModalOpenEdit(false);
+    };
+    const [editStateIndex, setEditStateIndex] = useState();
+    
+    console.log(
+      "userDataReducerEdit",
+      userDataReducer[editStateIndex]?.firstName
+      );
+      const inputHandlerEdit = (e) =>
+      setAddUserEditState({
+        ...addUserEditState,
+        [e.target.name]: e.target.value,
     });
   console.log("addUserEditState", addUserEditState);
 
   useLayoutEffect(() => {
     setAddUserEditState({
       ...addUserEditState,
+      id: userDataReducer[editStateIndex]?.id,
       firstName: userDataReducer[editStateIndex]?.firstName,
       lastName: userDataReducer[editStateIndex]?.lastName,
       email: userDataReducer[editStateIndex]?.email,
